@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 function PasswordGenerator() {
@@ -12,25 +12,32 @@ function PasswordGenerator() {
         let randomStr=""
         let str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-        numberAllowed && (str += "0123456789")
-        symbolAllowed && (str += "!@#$%&()+{}")
+        if(numberAllowed) str += "0123456789";
+        if(symbolAllowed) str += "!@#$%&()+{}";
         
         for(let i=0;i<length;i++){
             let index = Math.floor(Math.random()*str.length)
             randomStr+= str.charAt(index)
         }
-        return randomStr;
+        setPassword(randomStr)
     }
+    
+    
+    useEffect(()=>{passwordGeneratorFunction()},[length, numberAllowed, symbolAllowed, setPassword])
+    
+
     return <div className="password-generator">
         <div className="top">
             <input type="text" value={password} readOnly/>
-            <button>Copy</button>
+            <button className="btn" onClick={()=>passwordGeneratorFunction()}>@</button>
+            <button className="btn" >Copy</button>
         </div>
         <div className="bottom">
             <input type="range" value={length} min={4} max={16} onChange={(e)=>setLength(e.target.value)}/>
-            <input type="checkbox" id="number" />
+            <label>{length}</label>
+            <input type="checkbox" id="number" onChange={()=>{setNumberAllowed((n)=>!n)}} defaultChecked={numberAllowed}/>
             <label htmlFor="number">Number</label>
-            <input type="checkbox" id="symbol"/>
+            <input type="checkbox" id="symbol" onChange={()=>{setSymbolAllowed((n)=>!n)}} defaultChecked={symbolAllowed}/>
             <label htmlFor="symbol">Symbol</label>
         </div>
     </div>
