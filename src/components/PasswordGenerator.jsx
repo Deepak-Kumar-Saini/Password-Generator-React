@@ -29,8 +29,8 @@ function PasswordGenerator() {
     return <div className="password-generator">
         <div className="top">
             <input type="text" value={password} readOnly/>
-            <button className="btn" onClick={()=>passwordGeneratorFunction()}>@</button>
-            <button className="btn" >Copy</button>
+            <button className="btn copy-btn" >Copy</button>
+            <button className="btn" onClick={()=>passwordGeneratorFunction()}><i className="fa-solid fa-rotate-right"></i></button>
         </div>
         <div className="bottom">
             <input type="range" value={length} min={4} max={16} onChange={(e)=>setLength(e.target.value)}/>
